@@ -108,6 +108,13 @@ def is_hotel_business(tags: dict) -> bool:
     return is_any_pair_present(tags, items)
 
 
+def is_residential_building(tags: dict) -> bool:
+    items = []
+    items += [('building', val) for val in ['house', 'residential', 'apartments', 'detached']]
+    
+    return is_any_pair_present(tags, items)
+
+
 def is_medicine(tags: dict) -> bool:
     items = [
         ('building', 'hospital'),
@@ -252,6 +259,7 @@ checkers = {
     'education': is_education,
     'electronics_and_telecommunication': is_electronics_and_telecommunication,
     'hotel_business': is_hotel_business,
+    'residential_building': is_residential_building,
     'medicine': is_medicine,
     'organisation': is_organisation,
     'post_office': is_post_office,

@@ -16,3 +16,10 @@ routes_fpath = data_dir / 'routes.json'
 
 # supernodes
 supernodes_fpath = data_dir / 'supernodes.json'
+
+# supernode edges
+edges_lspace_fpath = data_dir / 'edges_lspace.json'
+edges_pspace_fpath = data_dir / 'edges_pspace.json'
+
+# infrastructure attributes
+supernode_attributes_fpath = data_dir / 'supernode_attributes.json'

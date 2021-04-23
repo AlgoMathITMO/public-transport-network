@@ -22,4 +22,4 @@ out;
 
 ## Further pipeline
 
-All procedures are executed in the corresponding jupyter-notebooks (directory `notebooks/`) in the order suggested by their corresponding names (i.e. `notebooks/1_data-preprocessing.ipynb`).
+All procedures are executed in the corresponding jupyter-notebooks (directory `pipeline/`) in the order suggested by their corresponding names (i.e. `pipeline/1_data-preprocessing.ipynb`).

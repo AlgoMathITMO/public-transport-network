@@ -10,16 +10,30 @@ raw_osm_data_fpath = raw_data_dir / 'spb_osm.json.zip'
 raw_routes_data_fpath = raw_data_dir / 'spb_routes.csv'
 
 # preprocessed data
-infrastructure_fpath = data_dir / 'infrastructure.json'
-stops_fpath = data_dir / 'stops.json'
-routes_fpath = data_dir / 'routes.json'
+preprocessed_dir = data_dir / 'preprocessed'
+preprocessed_dir.mkdir(exist_ok=True)
+
+infrastructure_fpath = preprocessed_dir / 'infrastructure.json'
+stops_fpath = preprocessed_dir / 'stops.json'
+routes_fpath = preprocessed_dir / 'routes.json'
 
 # supernodes
-supernodes_fpath = data_dir / 'supernodes.json'
+supernodes_dir = data_dir / 'supernodes'
+supernodes_dir.mkdir(exist_ok=True)
+
+supernodes_fpath = supernodes_dir / 'supernodes.json'
 
 # supernode edges
-edges_lspace_fpath = data_dir / 'edges_lspace.json'
-edges_pspace_fpath = data_dir / 'edges_pspace.json'
+edges_lspace_fpath = supernodes_dir / 'edges_lspace.json'
+edges_pspace_fpath = supernodes_dir / 'edges_pspace.json'
 
 # infrastructure attributes
-supernode_attributes_fpath = data_dir / 'supernode_attributes.json'
+supernode_attributes_fpath = supernodes_dir / 'supernode_attributes.json'
+
+# supernode features
+features_dir = data_dir / 'features'
+features_dir.mkdir(exist_ok=True)
+
+infrastructure_features_fpath = features_dir / 'infrastructure_features.json'
+lspace_features_fpath = features_dir / 'lspace_features.json'
+pspace_features_fpath = features_dir / 'pspace_features.json'

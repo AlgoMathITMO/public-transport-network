@@ -37,3 +37,9 @@ features_dir.mkdir(exist_ok=True)
 infrastructure_features_fpath = features_dir / 'infrastructure_features.json'
 lspace_features_fpath = features_dir / 'lspace_features.json'
 pspace_features_fpath = features_dir / 'pspace_features.json'
+
+# clustering
+clustering_dir = data_dir / 'clustering'
+clustering_dir.mkdir(exist_ok=True)
+
+supernode_clusters_fpath = clustering_dir / 'supernode_clusters.json'

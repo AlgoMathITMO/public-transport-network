@@ -4,6 +4,8 @@ matplotlib
 matplotlib-venn
 pandas
 scipy
+scikit-learn
+seaborn
 tqdm
 
 git+https://github.com/ylytkin/myutils

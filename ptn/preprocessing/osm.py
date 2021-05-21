@@ -67,8 +67,15 @@ def is_company(tags: dict) -> bool:
         ('office', 'company'),
         ('office', 'it'),
         ('office', 'association'),
-        ('landuse', 'industrial'),
         ('landuse', 'commercial'),
+    ]
+
+    return is_any_pair_present(tags, items)
+
+
+def is_industrial(tags: dict) -> bool:
+    items = [
+        ('landuse', 'industrial'),
     ]
 
     return is_any_pair_present(tags, items)
@@ -256,6 +263,7 @@ checkers = {
     'car_supply': is_car_supply,
     'catering_place': is_catering_place,
     'company': is_company,
+    'industrial': is_industrial,
     'education': is_education,
     'electronics_and_telecommunication': is_electronics_and_telecommunication,
     'hotel_business': is_hotel_business,

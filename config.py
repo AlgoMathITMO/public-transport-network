@@ -26,6 +26,7 @@ supernodes_fpath = supernodes_dir / 'supernodes.json'
 # supernode edges
 edges_lspace_fpath = supernodes_dir / 'edges_lspace.json'
 edges_pspace_fpath = supernodes_dir / 'edges_pspace.json'
+edges_pspace_multi_fpath = supernodes_dir / 'edges_pspace_multi.json'
 
 # infrastructure attributes
 supernode_attributes_fpath = supernodes_dir / 'supernode_attributes.json'

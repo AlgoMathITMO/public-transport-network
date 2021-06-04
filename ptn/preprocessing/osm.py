@@ -40,7 +40,7 @@ def is_business_center_or_mall_or_marketplace(tags: dict) -> bool:
     return is_any_pair_present(tags, items)
 
 
-def is_car_supply(tags: dict) -> bool:
+def is_car_related(tags: dict) -> bool:
     items = [('club', 'automobile')]
 
     items += [('amenity', val) for val in ['fuel', 'car_wash', 'car_rental', 'car']]
@@ -50,7 +50,7 @@ def is_car_supply(tags: dict) -> bool:
     return is_any_pair_present(tags, items)
 
 
-def is_catering_place(tags: dict) -> bool:
+def is_restaurant(tags: dict) -> bool:
     items = [
         ('shop', 'pastry'),
         ('shop', 'bakery'),
@@ -67,6 +67,8 @@ def is_company(tags: dict) -> bool:
         ('office', 'company'),
         ('office', 'it'),
         ('office', 'association'),
+        ('office', 'telecommunication'),
+        ('craft', 'electronics_repair'),
         ('landuse', 'commercial'),
     ]
 
@@ -81,7 +83,7 @@ def is_industrial(tags: dict) -> bool:
     return is_any_pair_present(tags, items)
 
 
-def is_education(tags: dict) -> bool:
+def is_education_research(tags: dict) -> bool:
     items = []
     items += [('amenity', val) for val in ['school', 'college', 'language_school',
                                            'driving_school', 'music_school',
@@ -89,16 +91,6 @@ def is_education(tags: dict) -> bool:
                                            'training', 'education', 'research_institute']]
     items += [('office', val) for val in ['educational_institution', 'research']]
     items += [('building', val) for val in ['school', 'university']]
-
-    return is_any_pair_present(tags, items)
-
-
-def is_electronics_and_telecommunication(tags: dict) -> bool:
-    items = [
-        ('office', 'telecommunication'),
-        ('craft', 'electronics_repair'),
-    ]
-    items += [('shop', val) for val in ['computer', 'mobile_phone', 'electronics']]
 
     return is_any_pair_present(tags, items)
 
@@ -115,7 +107,7 @@ def is_hotel_business(tags: dict) -> bool:
     return is_any_pair_present(tags, items)
 
 
-def is_residential_building(tags: dict) -> bool:
+def is_residential(tags: dict) -> bool:
     items = []
     items += [('building', val) for val in ['house', 'residential', 'apartments', 'detached']]
     
@@ -135,7 +127,7 @@ def is_medicine(tags: dict) -> bool:
     return is_any_pair_present(tags, items)
 
 
-def is_organisation(tags: dict) -> bool:
+def is_administrative(tags: dict) -> bool:
     items = [
         ('leisure', 'community_centre'),
     ]
@@ -200,7 +192,6 @@ def is_service(tags: dict) -> bool:
 
     return is_any_pair_present(tags, items)
 
-
 def is_shop(tags: dict) -> bool:
     items = [
         ('landuse', 'retail'),
@@ -208,15 +199,15 @@ def is_shop(tags: dict) -> bool:
     items += [('shop', val) for val in ['alcohol', 'antiques', 'appliance', 'art', 'bag',
                                         'baker_supply', 'beauty', 'bicycle', 'binding', 'boat',
                                         'baby_goods', 'charity', 'chemist', 'clock', 'clothes',
-                                        'coffee', 'collector', 'consignment', 'convenience',
+                                        'coffee', 'collector', 'consignment', 'computer', 'convenience',
                                         'cosmetics', 'curtain', 'dairy', 'deli', 'department_store',
-                                        'doityourself', 'energy', 'equipment', 'erotic', 'esoteric',
+                                        'doityourself', 'electronics', 'energy', 'equipment', 'erotic', 'esoteric',
                                         'fabric', 'family', 'farm', 'fireplace', 'fireworks',
                                         'florist', 'food', 'funeral_directors', 'furniture',
                                         'games', 'garden_centre', 'gas', 'gift', 'greengrocer',
                                         'hardware', 'hearing_aids', 'houseware', 'internet-shop',
                                         'jewelry', 'kids', 'kiosk', 'knife', 'lighting',
-                                        'locksmith', 'lottery', 'meat', 'military_shop', 'music',
+                                        'locksmith', 'lottery', 'meat', 'military_shop', 'mobile_phone', 'music',
                                         'numismatics', 'outdoor', 'paint', 'party', 'pet', 'photo',
                                         'plants', 'plastic', 'pyrotechnics', 'second_hand',
                                         'security', 'shoes', 'shop', 'smoke', 'storage_rental',
@@ -226,13 +217,19 @@ def is_shop(tags: dict) -> bool:
     return is_any_pair_present(tags, items)
 
 
-def is_sight_place_tourism(tags: dict) -> bool:
+def is_tourism(tags: dict) -> bool:
     items = []
     items += [('tourism', val) for val in ['sight', 'artwork', 'attraction', 'museum', 'gallery',
                                            'yes', 'theme_park', 'zoo']]
     items += [('historic', val) for val in ['memorial', 'monument', 'shield', 'castle', 'palace',
                                             'fort', 'building']]
-    items += [('amenity', val) for val in ['theatre', 'fountain', 'grave_yard', 'cinema']]
+    items += [('amenity', val) for val in ['fountain', 'grave_yard']]
+
+    return is_any_pair_present(tags, items)
+
+
+def is_theatre_cinema(tags: dict) -> bool:
+    items = [('amenity', 'theatre'), ('amenity', 'cinema')]
 
     return is_any_pair_present(tags, items)
 
@@ -260,87 +257,29 @@ def is_supermarket(tags: dict) -> bool:
 checkers = {
     'bank_and_money': is_bank_and_money,
     'business_center_or_mall_or_marketplace': is_business_center_or_mall_or_marketplace,
-    'car_supply': is_car_supply,
-    'catering_place': is_catering_place,
+    'car_related': is_car_related,
+    'restaurant': is_restaurant,
     'company': is_company,
     'industrial': is_industrial,
-    'education': is_education,
-    'electronics_and_telecommunication': is_electronics_and_telecommunication,
+    'education_research': is_education_research,
     'hotel_business': is_hotel_business,
-    'residential_building': is_residential_building,
+    'residential': is_residential,
     'medicine': is_medicine,
-    'organisation': is_organisation,
+    'administrative': is_administrative,
     'post_office': is_post_office,
     'printing_and_books': is_printing_and_books,
     'religion': is_religion,
     'service': is_service,
     'shop': is_shop,
-    'sight_place_tourism': is_sight_place_tourism,
+    'tourism': is_tourism,
+    'theatre_cinema': is_theatre_cinema,
     'sport': is_sport,
     'supermarket': is_supermarket,
 }
 
 
 def assign_infrastructure_types(tags: dict) -> List[str]:
-    return [name for name, checker in checkers.items() if checker(tags)]
-
-
-def get_relation_nodes(spb_osm: pd.DataFrame, relation_ids: List[int]) -> Dict[int, List[int]]:
-    relation_nodes = {}
-
-    def _get_this_relation_nodes(
-            relation_id: int,
-            excluded_relations: Optional[Set[int]] = None,
-    ):
-        if relation_id in relation_nodes:
-            return relation_nodes[relation_id]
-
-        members = spb_osm.loc[spb_osm['id'] == relation_id, 'members'].iloc[0]
-
-        this_relation_nodes = []
-        excluded_relations = excluded_relations or set()
-
-        for member in members:
-            if member['type'] == 'node':
-                this_relation_nodes.append(member['ref'])
-
-            elif member['type'] == 'way':
-                way_nodes = spb_osm.loc[spb_osm['id'] == member['ref'], 'nodes']
-
-                if way_nodes.empty:
-                    continue
-
-                way_nodes = way_nodes.iloc[0]
-
-                if not isinstance(way_nodes, list):
-                    continue
-
-                this_relation_nodes.extend(way_nodes)
-
-            elif member['type'] == 'relation':
-                if member['ref'] in excluded_relations:
-                    continue
-
-                excluded_relations.add(member['ref'])
-
-                this_relation_nodes.extend(_get_this_relation_nodes(
-                    relation_id=member['ref'],
-                    excluded_relations=excluded_relations,
-                ))
-
-            else:
-                raise ValueError(member['type'])
-
-        this_relation_nodes = list(set(this_relation_nodes))
-
-        relation_nodes[relation_id] = this_relation_nodes
-
-        return this_relation_nodes
-
-    mask = spb_osm['id'].isin(relation_ids)
-    n_items = mask.sum()
-
-    for _, relation_id_ in tqdm(spb_osm.loc[mask, 'id'].iteritems(), total=n_items):
-        _get_this_relation_nodes(relation_id_)
-
-    return relation_nodes
+    if isinstance(tags, dict):
+        return [name for name, checker in checkers.items() if checker(tags)]
+    else:
+        return []

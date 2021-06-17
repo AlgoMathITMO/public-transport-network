@@ -6,7 +6,7 @@ Analysis of public transportation systems using network science.
 
 The analysis is based on the public infrastructure data of St. Petersburg, Russia. The two sources of raw data are:
 
-* `data/raw/spb_routes.csv` - data on public transport routes (bus, trolley, tram). Downloaded from [this page](http://data.gov.spb.ru/opendata/7830001067-routes_transport/).
+* `data/raw/spb_routes.csv` - data on public transport routes (bus, trolley, tram). Downloaded from [this page](https://classif.gov.spb.ru/irsi/7830001067-marshruty-dvizheniya-gorodskogo-transporta/).
 * `data/raw/osm.zip`* - data from [OpenStreetMap](https://www.openstreetmap.org/). Downloaded via [Overpass API](https://overpass-turbo.eu/) using the following queries:
   1. St. Petersburg (relation [337422](https://www.openstreetmap.org/relation/337422)):
     ```
@@ -35,3 +35,17 @@ The analysis is based on the public infrastructure data of St. Petersburg, Russi
 ## Further pipeline
 
 All procedures are executed in the corresponding jupyter-notebooks (directory `pipeline/`) in the order suggested by their corresponding names (i.e. `pipeline/1_data-preprocessing.ipynb`).
+
+## Dependencies
+
+Note that this repo (unfortunately) uses both `pip` and `conda` for package management, since installing `cartopy` without `conda` is a pain in the ass, and I also like to use my own little package [`myutils`](https://github.com/ylytkin/myutils), which cannot be installed using `conda` directly from Github. The simplest way to use the repo is to run
+
+```bash
+pip install --r requirements.txt
+```
+
+and then additionally
+
+```bash
+conda install cartopy
+```

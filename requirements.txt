@@ -1,7 +1,7 @@
+# cartopy
 numpy
 networkx
 matplotlib
-matplotlib-venn
 pandas
 scipy
 scikit-learn

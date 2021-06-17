@@ -21,10 +21,13 @@ routes_fpath = preprocessed_dir / 'routes.json'
 supernodes_dir = data_dir / 'supernodes'
 supernodes_dir.mkdir(exist_ok=True)
 
+supernode_threshold_metrics_fpath = supernodes_dir / 'supernode_threshold_metrics.json'
 supernodes_fpath = supernodes_dir / 'supernodes.json'
 
 # supernode edges
 edges_lspace_fpath = supernodes_dir / 'edges_lspace.json'
+
+edges_pspace_alpha_metrics_fpath = supernodes_dir / 'edges_pspace_alpha_metrics.json'
 edges_pspace_fpath = supernodes_dir / 'edges_pspace.json'
 
 temp_dir = data_dir / 'temp'
@@ -44,6 +47,4 @@ graph_features_fpath = features_dir / 'graph_features.json'
 clustering_dir = data_dir / 'clustering'
 clustering_dir.mkdir(exist_ok=True)
 
-infrastructure_clusters_fpath = clustering_dir / 'infrastructure_clusters.json'
-graph_clusters_fpath = clustering_dir / 'graph_clusters.json'
-consensus_clusters_fpath = clustering_dir / 'consensus_clusters.json'
+supernode_clusters_fpath = clustering_dir / 'supernode_clusters.json'

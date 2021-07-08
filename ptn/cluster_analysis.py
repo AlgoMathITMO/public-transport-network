@@ -81,34 +81,36 @@ def match_clusters(clusters1: pd.Series, clusters2: pd.Series) -> Tuple[pd.Serie
 
 
 
-def plot_clusters(clusters: pd.Series, tsne: pd.DataFrame, coords: pd.DataFrame):
+def plot_clusters(clusters: pd.Series, tsne: pd.DataFrame, coords: pd.DataFrame, cluster_names: dict):
     fig, axes = plt.subplots(ncols=2)
-    fig.set_size_inches(12, 6)
+    fig.set_size_inches(8, 4)
 
     dfs = [tsne, coords]
-    titles = ['tSNE', 'coordinates']
+    titles = ['(a)', '(b)']
 
     for ax, df, title in zip(axes, dfs, titles):
         for i in sorted(clusters.unique()):
             cluster = df[clusters == i]
+            cluster_name = cluster_names[i]
 
             ax.scatter(
                 *cluster.values.T,
                 color=f'C{i}',
                 marker='.',
-                s=5,
-                label=f'cl. {i} (size {cluster.shape[0]})',
+                s=1,
+                label=f'{cluster_name} ({cluster.shape[0]} nodes)',
             )
 
         ax.axis('off')
-        ax.set_title(title)
+        ax.set_title(title, y=-0.05)
 
-    axes[-1].legend(loc='upper left', bbox_to_anchor=(1, 1))
+    axes[-1].legend(loc='upper left', bbox_to_anchor=(0.75, 1))
 
 
 def plot_separate_clusters(
         features: pd.DataFrame,
         clusters: pd.Series,
+        cluster_names: dict,
         ncols: int = 3,
 ):
     n_clusters = clusters.nunique()
@@ -116,7 +118,8 @@ def plot_separate_clusters(
     nrows = n_clusters // ncols + int(n_clusters % ncols > 0)
 
     fig, axes = plt.subplots(ncols=ncols, nrows=nrows)
-    fig.set_size_inches(4 * ncols, 4 * nrows)
+    fig.set_size_inches(3 * ncols, 2.2 * nrows)
+    fig.subplots_adjust(wspace=0.3, hspace=0.3)
     axes = axes.flatten()
 
     vmin = features.min().min()
@@ -124,22 +127,25 @@ def plot_separate_clusters(
 
     for i, ax in zip(sorted(clusters.unique()), axes):
         cluster = features[clusters == i]
+        cluster_name = cluster_names[i]
         cluster_mean = cluster.mean(axis=0)
 
         legend = True
 
         for _, row in cluster.iterrows():
-            label = f'cl. {i} (size {cluster.shape[0]})' if legend else None
-            legend = False
+            # label = f'{cluster_name} ({cluster.shape[0]} nodes)' if legend else None
+            # legend = False
 
-            ax.plot(row, c=f'C{i}', lw=0.1, label=label)
+            ax.plot(row, c=f'C{i}', lw=0.1)
 
         ax.plot(cluster_mean, c='k', ls='dashed', lw=1, zorder=2)
-
+    
+        ax.set_title(f'{cluster_name} ({cluster.shape[0]} nodes)')
+        
         ax.tick_params(labelbottom=False)
         ax.set_ylim(vmin, vmax)
 
-        ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.01))
+        # ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.01))
 
     for i in range(n_clusters, len(axes)):
         axes[i].axis('off')
@@ -169,24 +175,26 @@ def get_one_vs_rest_cluster_statistics(
 def plot_cluster_features(
         features: pd.DataFrame,
         clusters: pd.Series,
+        cluster_names: dict,
 ):
     mean = features.mean(axis=0)
 
     one_vs_rest_cluster_statistics = get_one_vs_rest_cluster_statistics(features, clusters)
 
     fig, (ax1, ax2) = plt.subplots(nrows=2)
-    fig.set_size_inches(0.5 * features.shape[1], 6)
+    fig.set_size_inches(0.35 * features.shape[1], 5)
     fig.subplots_adjust(hspace=0.05)
 
     for i in sorted(np.unique(clusters)):
         mask = clusters == i
         cluster_size = mask.sum()
+        cluster_name = cluster_names[i]
         cluster_mean = features[mask].mean(axis=0)
 
         statistics = one_vs_rest_cluster_statistics[i]
 
         ax1.plot(cluster_mean.values, lw=1, c=f'C{i}', marker='.', markersize=3,
-                 label=f'cl. {i} (size {cluster_size})')
+                 label=f'{cluster_name} ({cluster_size} nodes)')
 
         ax2.plot(statistics.values, lw=1, c=f'C{i}', marker='.', markersize=3)
 

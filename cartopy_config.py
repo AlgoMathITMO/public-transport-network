@@ -5,6 +5,13 @@ node_color = {
     'subway': 'C4',
 }
 
+node_marker = {
+    'bus': 'o',
+    'trolley': 'v',
+    'tram': 's',
+    'subway': 'X'
+}
+
 node_size = {
     'bus': 0.4,
     'trolley': 0.4,
@@ -19,6 +26,13 @@ edge_width = {
     'subway': 0.25,
 }
 
+edge_linestyle = {
+    'bus': 'solid',
+    'trolley': 'dashed',
+    'tram': 'dotted',
+    'subway': 'dashdot',
+}
+
 zorder = {
     'bus': 5,
     'trolley': 6,
@@ -27,8 +41,10 @@ zorder = {
 }
 
 supernode_color = 'C3'
+supernode_marker = '*'
 supernode_size = 2
 superedge_width = 0.3
+supernode_linestyle = 'solid'
 supernode_zorder = 9
 
 extent_whole = [28.98, 31.34, 59.53, 60.37]  # whole area
@@ -52,17 +68,21 @@ vaska_area = (extent_vaska, scale_vaska, factor_vaska)
 
 def get_node_props(t: str, factor: float) -> tuple:
     color = node_color[t]
+    marker = node_marker[t]
     size = node_size[t] * factor
     width = edge_width[t] * factor
+    linestyle = edge_linestyle[t]
     zorder_ = zorder[t]
     
-    return color, size, width, zorder_
+    return color, marker, size, width, linestyle, zorder_
 
 
 def get_supernode_props(factor: float) -> tuple:
     return (
         supernode_color,
+        supernode_marker,
         supernode_size * factor,
         superedge_width * factor,
+        supernode_linestyle,
         supernode_zorder,
     )

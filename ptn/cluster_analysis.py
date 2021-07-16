@@ -87,18 +87,24 @@ def plot_clusters(clusters: pd.Series, tsne: pd.DataFrame, coords: pd.DataFrame,
 
     dfs = [tsne, coords]
     titles = ['(a)', '(b)']
+    
+    markers = ['o', 's', 'v', 'x', '+', '2']
 
     for ax, df, title in zip(axes, dfs, titles):
         for i in sorted(clusters.unique()):
             cluster = df[clusters == i]
             cluster_name = cluster_names[i]
+            
+            cluster_size = round(cluster.shape[0] / clusters.shape[0] * 100, 1)
+            
+            marker = markers[i % len(markers)]
 
             ax.scatter(
                 *cluster.values.T,
                 color=f'C{i}',
-                marker='.',
+                marker=marker,
                 s=1,
-                label=f'{cluster_name} ({cluster.shape[0]} nodes)',
+                label=f'{cluster_name} ({cluster_size}\% of nodes)',
             )
 
         ax.axis('off')
@@ -129,6 +135,8 @@ def plot_separate_clusters(
         cluster = features[clusters == i]
         cluster_name = cluster_names[i]
         cluster_mean = cluster.mean(axis=0)
+        
+        cluster_size = round(cluster.shape[0] / clusters.shape[0] * 100, 1)
 
         legend = True
 
@@ -140,7 +148,7 @@ def plot_separate_clusters(
 
         ax.plot(cluster_mean, c='k', ls='dashed', lw=1, zorder=2)
     
-        ax.set_title(f'{cluster_name} ({cluster.shape[0]} nodes)')
+        ax.set_title(f'{cluster_name} ({cluster_size}\% of nodes)')
         
         ax.tick_params(labelbottom=False)
         ax.set_ylim(vmin, vmax)
@@ -176,27 +184,43 @@ def plot_cluster_features(
         features: pd.DataFrame,
         clusters: pd.Series,
         cluster_names: dict,
+        orient: str = 'v',
 ):
     mean = features.mean(axis=0)
 
     one_vs_rest_cluster_statistics = get_one_vs_rest_cluster_statistics(features, clusters)
 
-    fig, (ax1, ax2) = plt.subplots(nrows=2)
-    fig.set_size_inches(0.35 * features.shape[1], 5)
-    fig.subplots_adjust(hspace=0.05)
+    if orient == 'v':
+        nrows = 2
+        ncols = 1
+        figsize = (0.35 * features.shape[1], 4)
+    else:
+        nrows = 1
+        ncols = 2
+        figsize = (0.35 * features.shape[1] * 2.2, 2)
+    
+    fig, axes = plt.subplots(nrows=nrows, ncols=ncols)
+    fig.set_size_inches(*figsize)
+    fig.subplots_adjust(hspace=0.05, wspace=0.5)
+    ax1, ax2 = axes.flatten()
+    
+    markers = ['o', 's', 'v', 'x', '+', '2']
 
     for i in sorted(np.unique(clusters)):
         mask = clusters == i
-        cluster_size = mask.sum()
         cluster_name = cluster_names[i]
         cluster_mean = features[mask].mean(axis=0)
+        
+        marker = markers[i % len(markers)]
+        
+        cluster_size = round(mask.sum() / clusters.shape[0] * 100, 1)
 
         statistics = one_vs_rest_cluster_statistics[i]
 
-        ax1.plot(cluster_mean.values, lw=1, c=f'C{i}', marker='.', markersize=3,
-                 label=f'{cluster_name} ({cluster_size} nodes)')
+        ax1.plot(cluster_mean.values, lw=1, c=f'C{i}', marker=marker, markersize=3)
 
-        ax2.plot(statistics.values, lw=1, c=f'C{i}', marker='.', markersize=3)
+        ax2.plot(statistics.values, lw=1, c=f'C{i}', marker=marker, markersize=3,
+                 label=f'{cluster_name} ({cluster_size}\% of nodes)')
 
     ax1.plot(mean, c='k', lw=1, ls='dashed', label='mean')
     ax2.plot(mean * 0, lw=1, c='k', ls='dashed')
@@ -205,12 +229,15 @@ def plot_cluster_features(
 
     for ax in [ax1, ax2]:
         ax.set_xticks(columns.index)
-        ax.set_xticklabels(columns.values)
-        ax.tick_params(axis='x', rotation=90)
+        ax.set_xticklabels(columns.values, rotation=45, ha='right')
 
-    ax1.tick_params(bottom=False, labelbottom=False, labeltop=True)
+    if orient == 'v':
+        ax1.tick_params(bottom=False, labelbottom=False, labeltop=False)
 
     ax1.set_ylabel('feature means')
     ax2.set_ylabel('2-sample t-test statistics')
 
-    ax1.legend(loc='center left', bbox_to_anchor=(1.05, 0))
+    if orient == 'v':
+        ax2.legend(loc='center left', bbox_to_anchor=(1, 1))
+    else:
+        ax2.legend(loc='center left', bbox_to_anchor=(1, 0.5))

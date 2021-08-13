@@ -108,9 +108,11 @@ def plot_clusters(clusters: pd.Series, tsne: pd.DataFrame, coords: pd.DataFrame,
             )
 
         ax.axis('off')
-        ax.set_title(title, y=-0.05)
+        ax.set_title(title, y=-0.35)
 
-    axes[-1].legend(loc='upper left', bbox_to_anchor=(0.75, 1))
+    axes[-1].legend(loc='upper center', ncol=2, bbox_to_anchor=(-0.1, 0), markerscale=3)
+    
+    fig.subplots_adjust(wspace=0.2)
 
 
 def plot_separate_clusters(
@@ -238,6 +240,6 @@ def plot_cluster_features(
     ax2.set_ylabel('2-sample t-test statistics')
 
     if orient == 'v':
-        ax2.legend(loc='center left', bbox_to_anchor=(1, 1))
+        ax2.legend(loc='upper center', bbox_to_anchor=(0.5, -0.55), ncol=2, markerscale=1.5)
     else:
-        ax2.legend(loc='center left', bbox_to_anchor=(1, 0.5))
+        ax2.legend(loc='upper center', bbox_to_anchor=(-0.35, -0.65), ncol=2, markerscale=1.5)
